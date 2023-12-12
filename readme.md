@@ -50,8 +50,16 @@ In the absence of a graphical user interface (GUI), input parameters will be spe
 
 - We've used an object oriented approach in the implementation
 
-There are few structures and one main class in the main code. [Order](application.cpp#L17-L45) is used for storing an entry of the order book. [Orderbook](applicaton.cpp#L77-257)
+There are few structures and one main class in the main code. [Order](application.cpp#L17-L45) is used for storing an entry of the order book. [Orderbook](application.cpp#L77-L257) is the main class where each and every type of flower has their own orderbook. 
 
 
+- There are few optimization techniques we used
 
+1. Used a [hashmap](application.cpp#L275-L282) when creating an orderbook in the beginning to reduce the number of branching instructions and gain a constant access time
+
+2. Used a [priority_queue](application.cpp#L84-L88) data structure to store buy and sell orders in the orderbook to improve the access time and deletion time
+
+3. Used a [vector](application.cpp#L150) to store the execution report outputs in one transaction to reduce the number of system calls for the IO operations
+
+- There was also the possibility of extending the program to a multi threaded application by using separate threads to handle buy and sell orders. While this may help the program to speedup there is also the tradeoff of having to handle deadlock situations and possible race conditions. Analyzing this must be done carefully. 
 
