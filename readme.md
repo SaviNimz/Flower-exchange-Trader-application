@@ -50,7 +50,7 @@ In the absence of a graphical user interface (GUI), input parameters will be spe
 
 - We've used an object oriented approach in the implementation
 
-There are few structures and one main class in the main code. [Order] (application.cpp#L17-L37) is  one of the most important of them
+There are few structures and one main class in the main code. [Order](application.cpp#L17-L45) is used for storing an entry of the order book. [Orderbook](applicaton.cpp#L77-257)
 
 
 

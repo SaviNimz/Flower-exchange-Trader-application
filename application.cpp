@@ -254,8 +254,6 @@ private:
         // Clear the vector for the next use
         executionReportStrings.clear();
     }
-
-
 };
 
 
