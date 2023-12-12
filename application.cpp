@@ -73,6 +73,7 @@ struct CompareEntry {
     }
 };
 
+
 class OrderBook
 {
 
@@ -257,14 +258,6 @@ private:
 
 };
 
-void printVector(const vector<string>& row)
-{
-    for (const auto& element : row)
-    {
-        cout << element << " ";
-    }
-    cout << endl;
-}
 
 int main()
 
@@ -320,7 +313,6 @@ int main()
 
         if (it != orderBooks.end())
         {
-            printVector(row);
 
             // Create an order
             Order order("ord" + to_string(order_id), row[0], instrument, stoi(row[2]), 0, stoi(row[3]), stod(row[4]));
@@ -342,4 +334,5 @@ int main()
 
     return 0;
 }
+
 

@@ -11,8 +11,7 @@ order container(known as Order Book) and do a full or partial execution.
 - [Architecture](#Architecture)
 - [Getting Started](#getting-started)
 - [Input and output](#input-and-output)
-- [Dependencies](#dependencies)
-- [Usage](#usage)
+- [Implementation Details](#Implementation-details)
 
 
 # Architecture
@@ -45,6 +44,13 @@ In the absence of a graphical user interface (GUI), input parameters will be spe
 
 ![output](images/execution%20rep%20csv.png)
 
+
+## Implementation details 
+
+
+- We've used an object oriented approach in the implementation
+
+There are few structures and one main class in the main code. [Order] (application.cpp#L17-L37) is  one of the most important of them
 
 
 
