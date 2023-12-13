@@ -61,5 +61,10 @@ There are few structures and one main class in the main code. [Order](applicatio
 
 3. Used a [vector](application.cpp#L150) to store the execution report outputs in one transaction to reduce the number of system calls for the IO operations
 
-- There was also the possibility of extending the program to a multi threaded application by using separate threads to handle buy and sell orders. While this may help the program to speedup there is also the tradeoff of having to handle deadlock situations and possible race conditions. Analyzing this must be done carefully. 
+- There was also the possibility of extending the program to a multi threaded application by using separate threads to handle buy and sell orders. 
+
+We can implement multithreading by using the <thread> header in C++
+Two separate threads can be created for processing buy and sell orders. The threads will iterate through the buy and sell order heaps in each OrderBook and call the respective processing functions.
+
+While this may help the program to speedup there is also the tradeoff of having to handle deadlock situations and possible race conditions.(Mutex locks are essential in preventing race conditions here) Analyzing this must be done carefully. 
 
