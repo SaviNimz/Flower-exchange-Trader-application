@@ -1,10 +1,9 @@
 # Flower exchange Trader application
 
-- The flower exchange is a system which
-supports basic trading
+- The flower exchange is a system which supports basic trading.
 -  Exchange Application - will process the incoming order against existing orders in the 
 order container(known as Order Book) and do a full or partial execution.
-- Every order is replied with an Execution Report by the Exchange Application indicating the status of the order
+- Every order is replied with an Execution Report by the Exchange Application indicating the status of the order.
 
 ## Table of Contents
 
@@ -16,8 +15,7 @@ order container(known as Order Book) and do a full or partial execution.
 
 # Architecture
 
-Even though we could use a high level architecture where trader application and exchange application work independently and communicate via sockets, we decided to user a much more simpler architecture in this project
-
+Even though we could use a high level architecture where trader application and exchange application work independently and communicate via sockets, we decided to user a much more simpler architecture in this project. Communication between the trader and exchange components is done through direct function calls and method invocations.
 ![Architecture](images/architecture.png)
 
 
@@ -34,7 +32,7 @@ Even though we could use a high level architecture where trader application and 
 
 ## Input and output
 
-In the absence of a graphical user interface (GUI), input parameters will be specified through a Comma-Separated Values (CSV) file. The outcome of the execution process will be systematically documented and recorded in a CSV file
+In the absence of a graphical user interface (GUI), input parameters will be specified through a Comma-Separated Values (CSV) file. The outcome of the execution process will be systematically documented and recorded in another CSV file(The execution report).
 
 - input file
 
@@ -62,6 +60,7 @@ There are few structures and one main class in the main code. [Order](applicatio
 3. Used a [vector](application.cpp#L150) to store the execution report outputs in one transaction to reduce the number of system calls for the IO operations
 
 - There was also the possibility of extending the program to a multi threaded application by using separate threads to handle buy and sell orders. 
+![Flower ](https://github.com/SaviNimz/Flower-exchange-Trader-application/assets/108650897/d6e9872a-1a98-4131-b7eb-a9e3f5071fdb)
 
 We can implement multithreading by using the <thread> header in C++
 Two separate threads can be created for processing buy and sell orders. The threads will iterate through the buy and sell order heaps in each OrderBook and call the respective processing functions.
