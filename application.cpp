@@ -10,6 +10,7 @@
 #include <queue> // priority queue header
 
 using namespace std;
+using namespace chrono;
 
 ifstream input_file("Orders.csv");         // Replace "input.csv" with the input CSV file's name
 ofstream output_file("Execution_Rep.csv"); // Replace "output.csv" with the output CSV file's name
@@ -93,31 +94,31 @@ public:
     void addOrder(Order& order)
 
     {
-        // first do all the validations for the order to check if it si valid 
-
+        // Validations for the order input to check its validity 
+        //price
         if (order.price < 0)
         {
             rejectOrder(order, "Invalid price");
             return;
         }
 
+        //size
         if (order.quantity % 10 != 0 || order.quantity < 10 || order.quantity > 1000)
         {
             rejectOrder(order, "Invalid size");
             return;
         }
 
+        //side(Not 1 or 2)
         if (order.side != 1 && order.side != 2)
         {
             rejectOrder(order, "Invalid side");
             return;
         }
-
-        // if non of the above conditions are met we can go to the execution report generation
+        //if the above conditions are not met, the order is considered valid and we will proceed with the execution report generation
         // Add order to the appropriate heap based on the side
 
         // create an object of the order book entry
-
         string temp_OrderID = order.orderID;
         string temp_clientID = order.clientOrderID;
         int temp_quantity = order.quantity;
@@ -125,15 +126,18 @@ public:
 
         orderbook_Entry temp_entry = orderbook_Entry(temp_OrderID,temp_clientID,temp_quantity,temp_price);
 
-        if (order.side == 1) // Buy order
+        // Buy order
+        if (order.side == 1) 
         {
-            // need to check through the sell  side for a matching order
-            // if the order is matching it's selling price should be less than or equal to buying price
-            // then update the amounts and write them to the execution report
-            // if we still  have matching sell orders for the remaining amount do the process again
+            // First iterate through the sell  side for a matching order
+            // if found, the selling price should be less than or equal to buying price
+            // if condition is satisfied, update the amounts and write them to the execution report
+            // if we still  have matching sell orders for the remaining amount, repeat the process
             processBuyOrder(temp_entry,order);
         }
-        else if (order.side == 2) // Sell order
+
+        // Sell order
+        else if (order.side == 2) 
         {
             processSellOrder(temp_entry,order);
         }
@@ -161,11 +165,11 @@ private:
         // this boolean value is used to check if the order is new 
         bool isModified = false;
         while (!sell_orders.empty() && sell_orders.top().price <= buyOrder.price) {
-            // Execute the order with the lowest sell price
+            // Execute the order with the lowest selling price
             orderbook_Entry sellOrder = sell_orders.top();
             sell_orders.pop();
 
-            // Update the quantities, generate execution report, etc.
+            // Update the quantities, generate execution report etc..
             buyOrder.Quantity = buyOrder.Quantity - sellOrder.Quantity;
 
             order.quantity = sellOrder.Quantity;
@@ -175,7 +179,7 @@ private:
 
             Order ExecRep_sell_ord = Order(sellOrder.OrderID,sellOrder.ClietOrderID,order.instrument,2,2,sellOrder.Quantity,sellOrder.price);
 
-            // Check if there exists remaining quantity in the buy order
+            // Check if there exists a remaining quantity in the buy order
             if (buyOrder.Quantity == 0) {
                 order.status = 2;
                 // Accumulate strings to the vector
@@ -186,7 +190,7 @@ private:
             else{
                 // partially filled order
                 order.status = 3;
-            // Accumulate strings to the vector
+                // Accumulate strings to the vector
                 executionReportStrings.push_back(order.toString());
                 executionReportStrings.push_back(ExecRep_sell_ord.toString());
             }
@@ -226,14 +230,14 @@ private:
 
             Order ExecRep_buy_ord = Order(buyOrder.OrderID, buyOrder.ClietOrderID, order.instrument, 1, 2, buyOrder.Quantity, buyOrder.price);
 
-            // Check if there exists remaining quantity in the sell order
+            // Check if there exists a remaining quantity in the sell order
             if (sellOrder.Quantity == 0) {
                 order.status = 2;
                 executionReportStrings.push_back(order.toString());
                 executionReportStrings.push_back(ExecRep_buy_ord.toString());
                 break; // The sell order is completely filled
             } else {
-                // Partially filled order
+                // Partially filled order; PFill
                 order.status = 3;
                 executionReportStrings.push_back(order.toString());
                 executionReportStrings.push_back(ExecRep_buy_ord.toString());
@@ -290,7 +294,9 @@ int main()
 
     // Add the field names row to the output file
     output_file << "Order ID, Client Order ID, Instrument, Side, Execution Status, Quantity, Price, Reason" << endl;
-
+    
+    //chrono start
+    auto start_time = high_resolution_clock::now();
     int order_id = 1;
 
     while (getline(input_file, line))
@@ -307,7 +313,7 @@ int main()
         string instrument = row[1];
         auto it = orderBooks.find(instrument);
 
-        // check weather if we can find the correct instrument in the hashmap of orderbooks 
+        // check whether we can find the correct instrument in the hashmap of orderbooks 
 
         if (it != orderBooks.end())
         {
@@ -329,8 +335,8 @@ int main()
             output_file << order.toString() << endl;
         }
     }
+    auto end_time = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(end_time - start_time);
 
     return 0;
 }
-
-

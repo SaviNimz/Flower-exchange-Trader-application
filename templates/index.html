@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Execution Report</title>
+ 
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .custom-file-input {
+            cursor: pointer;
+        }
+
+        .custom-file-label {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .btn-upload {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-upload:hover {
+            background-color: #0056b3;
+        }
+        #header-image {
+            max-width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Ensures the image is behind other content */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- <img src="../static/lseg_2.png" id="header-image"> -->
+    <div class="container mt-5">
+        <h1>Upload Order Book</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="custom-file mb-3">
+                <input type="file" class="custom-file-input" id="file" name="file" onchange="updateFileName(this)">
+                <label class="custom-file-label" for="file">Choose file</label>
+            </div>
+            <button type="submit" class="btn btn-upload">Upload</button>
+        </form>
+        
+    </div>
+
+    <script>
+        function updateFileName(input) {
+            var fileName = input.files[0].name;
+            var label = input.nextElementSibling;
+            label.innerText = fileName;
+        }
+    </script>
+    
+</body>
+</html>
